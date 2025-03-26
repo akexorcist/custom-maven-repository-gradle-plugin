@@ -1,0 +1,7 @@
+[versions]
+
+[libraries]
+osx-keychain = { group = "pt.davidafsilva.apple", name = "jkeychain", version = "1.1.0" }
+dokka = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version = "2.0.0" }
+
+[plugins]
