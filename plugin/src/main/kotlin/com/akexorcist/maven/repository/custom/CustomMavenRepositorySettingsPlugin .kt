@@ -13,7 +13,7 @@ class CustomMavenRepositorySettingsPlugin : Plugin<Settings> {
     override fun apply(target: Settings) {
         with(target) {
             extensions.create("customMavenRepository", CustomMavenRepositoryExtension::class.java)
-            gradle.beforeProject {
+            gradle.settingsEvaluated {
                 dependencyResolutionManagement {
                     repositories {
                         customMaven(target)
