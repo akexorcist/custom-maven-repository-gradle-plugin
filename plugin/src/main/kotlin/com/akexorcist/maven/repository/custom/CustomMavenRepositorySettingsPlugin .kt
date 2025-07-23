@@ -1,23 +1,23 @@
 package com.akexorcist.maven.repository.custom
 
 import org.gradle.api.Plugin
-import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+import org.gradle.api.initialization.Settings
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.repositories
 import pt.davidafsilva.apple.OSXKeychain
 import kotlin.jvm.optionals.getOrNull
 
 @Suppress("unused")
-class CustomMavenRepositoryPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
+class CustomMavenRepositorySettingsPlugin : Plugin<Settings> {
+    override fun apply(target: Settings) {
         with(target) {
             extensions.create("customMavenRepository", CustomMavenRepositoryExtension::class.java)
-            afterEvaluate {
-                repositories {
-                    mavenLocal()
-                    customMaven(target)
+            gradle.beforeProject {
+                dependencyResolutionManagement {
+                    repositories {
+                        customMaven(target)
+                    }
                 }
             }
         }
@@ -25,7 +25,7 @@ class CustomMavenRepositoryPlugin : Plugin<Project> {
 }
 
 fun RepositoryHandler.customMaven(
-    target: Project,
+    target: Settings,
     name: String,
     extension: CustomMavenRepositoryExtension,
 ): MavenArtifactRepository = maven {
@@ -36,7 +36,7 @@ fun RepositoryHandler.customMaven(
     credentials { extension.credentials(this, username, password) }
 }
 
-fun RepositoryHandler.customMaven(target: Project, name: String = "CustomMaven") {
+fun RepositoryHandler.customMaven(target: Settings, name: String = "CustomMaven") {
     val extension: CustomMavenRepositoryExtension = target.extensions.getByType()
     customMaven(
         target = target,

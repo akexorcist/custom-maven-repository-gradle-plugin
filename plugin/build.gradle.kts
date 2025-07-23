@@ -44,6 +44,10 @@ gradlePlugin {
             id = "com.akexorcist.maven.repository.custom"
             implementationClass = "com.akexorcist.maven.repository.custom.CustomMavenRepositoryPlugin"
         }
+        register("customMavenRepositorySettingsPlugin") {
+            id = "com.akexorcist.maven.repository.custom.settings"
+            implementationClass = "com.akexorcist.maven.repository.custom.CustomMavenRepositorySettingsPlugin"
+        }
     }
 }
 
