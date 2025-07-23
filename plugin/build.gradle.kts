@@ -1,12 +1,10 @@
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.gradle.plugins.signing.SigningExtension
 
 plugins {
     `kotlin-dsl`
     id("com.vanniktech.maven.publish") version "0.31.0"
-    `signing`
 }
 
 repositories {
@@ -85,24 +83,6 @@ mavenPublishing {
             url.set("https://github.com/akexorcist/custom-maven-repository-gradle-plugin")
             connection.set("scm:git:git://github.com/akexorcist/custom-maven-repository-gradle-plugin.git")
             developerConnection.set("scm:git:ssh://git@github.com/akexorcist/custom-maven-repository-gradle-plugin.git")
-        }
-    }
-}
-
-// Configure signing using macOS Keychain
-afterEvaluate {
-    configure<SigningExtension> {
-        // Check if we have explicit properties configured
-        val signingKeyId = getProjectVariable("signing.keyId")
-        val signingPassword = getProjectVariable("signing.password")
-        val signingSecretKeyRingFile = getProjectVariable("signing.secretKeyRingFile")
-
-        // If explicit signing properties are provided, use them
-        if (signingKeyId != null && signingPassword != null && signingSecretKeyRingFile != null) {
-            useInMemoryPgpKeys(signingKeyId, signingSecretKeyRingFile, signingPassword)
-        } else {
-            // Otherwise, try to use macOS Keychain
-            useGpgCmd()
         }
     }
 }
