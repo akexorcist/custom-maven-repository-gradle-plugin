@@ -1,10 +1,9 @@
-import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
-    id("com.vanniktech.maven.publish") version "0.31.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
 repositories {
@@ -52,7 +51,7 @@ gradlePlugin {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral()
     coordinates(
         groupId = libraryGroup,
         artifactId = libraryArtifact,
