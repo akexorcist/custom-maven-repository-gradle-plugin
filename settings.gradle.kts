@@ -15,4 +15,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "custom-maven-repository-gradle-plugin"
-include(":plugin")
+include(
+    ":common",
+    ":plugin",
+    ":settings",
+)

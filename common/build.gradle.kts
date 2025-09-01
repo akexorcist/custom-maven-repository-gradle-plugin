@@ -6,23 +6,22 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
     gradlePluginPortal()
     google()
     mavenCentral()
 }
 
 val libraryGroup = "com.akexorcist.maven.repository.custom"
-val libraryArtifact = "com.akexorcist.maven.repository.custom.gradle.plugin"
+val libraryArtifact = "common"
 val libraryVersion = properties["library.version"].toString()
 
 group = libraryGroup
 version = libraryVersion
 
-val buildVariant: String
-    get() = project.findProperty("buildVariant") as? String ?: "debug"
-val debugImplementation: Configuration by configurations.creating
-val releaseImplementation: Configuration by configurations.creating
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
@@ -35,26 +34,8 @@ kotlin {
 }
 
 dependencies {
-    if (buildVariant == "debug") {
-        configurations.implementation.get().extendsFrom(debugImplementation)
-    } else {
-        configurations.implementation.get().extendsFrom(releaseImplementation)
-    }
-
-    implementation(libs.dokka)
+    implementation(libs.osx.keychain)
     implementation(files("../buildSrc/build/classes/kotlin/main"))
-
-    debugImplementation(project(":common"))
-    releaseImplementation("com.akexorcist.maven.repository.custom:common:$libraryVersion")
-}
-
-gradlePlugin {
-    plugins {
-        register("customMavenRepositoryPlugin") {
-            id = "com.akexorcist.maven.repository.custom"
-            implementationClass = "com.akexorcist.maven.repository.custom.CustomMavenRepositoryPlugin"
-        }
-    }
 }
 
 mavenPublishing {
@@ -62,7 +43,7 @@ mavenPublishing {
     coordinates(
         groupId = libraryGroup,
         artifactId = libraryArtifact,
-        version = "$libraryVersion-123",
+        version = libraryVersion,
     )
     signAllPublications()
 
