@@ -15,8 +15,7 @@ internal fun getPasswordFromKeychain(keyChain: CustomMavenRepositoryExtension.Ma
     }.getOrNull()
 }
 
-
-internal fun Settings.getCredential(extension: CustomMavenRepositoryExtension): Pair<String?, String?> {
+fun Settings.getCredential(extension: CustomMavenRepositoryExtension): Pair<String?, String?> {
     val macOsKeyChain = extension.macOsKeyChain
     return getSettingsVariable(extension.usernameKey) to when {
         macOsKeyChain != null && isMacOs() && !isGitLabRunner() -> getPasswordFromKeychain(macOsKeyChain)
@@ -27,14 +26,13 @@ internal fun Settings.getCredential(extension: CustomMavenRepositoryExtension): 
 fun Settings.getSettingsVariable(key: String) = System.getenv(key)
     ?.takeIf { it.isNotBlank() } ?: providers.gradleProperty(key).get()
 
-internal fun Project.getCredential(extension: CustomMavenRepositoryExtension): Pair<String?, String?> {
+fun Project.getCredential(extension: CustomMavenRepositoryExtension): Pair<String?, String?> {
     val macOsKeyChain = extension.macOsKeyChain
     return getProjectVariable(extension.usernameKey) to when {
         macOsKeyChain != null && isMacOs() && !isGitLabRunner() -> getPasswordFromKeychain(macOsKeyChain)
         else -> getProjectVariable(extension.passwordKey)
     }
 }
-
 
 fun Project.getProjectVariable(key: String) = System.getenv(key)
     ?.takeIf { it.isNotBlank() } ?: properties[key]?.toString().takeIf { !it.isNullOrBlank() }

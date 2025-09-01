@@ -1,12 +1,12 @@
-package com.akexorcist.maven.repository.custom
+package com.akexorcist.maven.repository.custom.settings
 
+import com.akexorcist.maven.repository.custom.CustomMavenRepositoryExtension
+import com.akexorcist.maven.repository.custom.getCredential
 import org.gradle.api.Plugin
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.initialization.Settings
 import org.gradle.kotlin.dsl.getByType
-import pt.davidafsilva.apple.OSXKeychain
-import kotlin.jvm.optionals.getOrNull
 
 @Suppress("unused")
 class CustomMavenRepositorySettingsPlugin : Plugin<Settings> {

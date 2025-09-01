@@ -12,15 +12,14 @@ repositories {
     mavenCentral()
 }
 
-val libraryGroup = "com.akexorcist.maven.repository.custom"
-val libraryArtifact = "com.akexorcist.maven.repository.custom.gradle.plugin"
+val libraryGroup = "com.akexorcist.maven.repository.custom.settings"
+val libraryArtifact = "com.akexorcist.maven.repository.custom.settings.gradle.plugin"
 val libraryVersion = properties["library.version"].toString()
 
 group = libraryGroup
 version = libraryVersion
 
-val buildVariant: String
-    get() = project.findProperty("buildVariant") as? String ?: "debug"
+val buildVariant = findProperty("buildVariant") as? String ?: "debug"
 val debugImplementation: Configuration by configurations.creating
 val releaseImplementation: Configuration by configurations.creating
 
@@ -40,7 +39,6 @@ dependencies {
     } else {
         configurations.implementation.get().extendsFrom(releaseImplementation)
     }
-
     implementation(libs.dokka)
     implementation(files("../buildSrc/build/classes/kotlin/main"))
 
@@ -50,9 +48,9 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("customMavenRepositoryPlugin") {
-            id = "com.akexorcist.maven.repository.custom"
-            implementationClass = "com.akexorcist.maven.repository.custom.CustomMavenRepositoryPlugin"
+        register("customMavenRepositorySettingsPlugin") {
+            id = "com.akexorcist.maven.repository.custom.settings"
+            implementationClass = "com.akexorcist.maven.repository.custom.settings.CustomMavenRepositorySettingsPlugin"
         }
     }
 }
@@ -62,7 +60,7 @@ mavenPublishing {
     coordinates(
         groupId = libraryGroup,
         artifactId = libraryArtifact,
-        version = "$libraryVersion-123",
+        version = libraryVersion,
     )
     signAllPublications()
 

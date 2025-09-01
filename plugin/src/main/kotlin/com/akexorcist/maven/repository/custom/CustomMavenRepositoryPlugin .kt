@@ -6,8 +6,6 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.repositories
-import pt.davidafsilva.apple.OSXKeychain
-import kotlin.jvm.optionals.getOrNull
 
 @Suppress("unused")
 class CustomMavenRepositoryPlugin : Plugin<Project> {
