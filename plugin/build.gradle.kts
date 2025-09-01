@@ -62,7 +62,7 @@ mavenPublishing {
     coordinates(
         groupId = libraryGroup,
         artifactId = libraryArtifact,
-        version = "$libraryVersion-123",
+        version = libraryVersion,
     )
     signAllPublications()
 
